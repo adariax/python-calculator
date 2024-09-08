@@ -5,6 +5,7 @@ from antlr4 import CommonTokenStream, InputStream
 from ExprLexer import ExprLexer
 from ExprParser import ExprParser
 
+from .ast import ASTBuilderVisitor
 from .visitor import Visitor
 
 
@@ -17,8 +18,8 @@ def driver():
         parser = ExprParser(stream)
         tree = parser.start()
 
-        # lisp_tree_str = tree.toStringTree(recog=parser)
-        # print(lisp_tree_str)
-
         visitor = Visitor()
         visitor.visit(tree)
+
+        ast = ASTBuilderVisitor()
+        print(ast.visit(tree))

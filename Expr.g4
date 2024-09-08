@@ -4,7 +4,7 @@ start:  expr NEWLINE                # printExpr
     |   NEWLINE                     # blank
     ;
 
-expr:   expr op=('*'|'/'|'+'|'-') expr      # arithmetic
+expr:   expr op=('+'|'-'|'*'|'/') expr      # arithmetic
     |   '-' expr                    # negative
     |   INT                         # int
     |   '(' expr ')'                # parens
