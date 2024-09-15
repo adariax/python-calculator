@@ -22,8 +22,8 @@ class Visitor(ExprVisitor):
         # just visit + parse expression inside
         return self.visit(ctx.expr())
 
-    # Visit a parse tree produced by ExprParser#arithmetic.
-    def visitArithmetic(self, ctx: ExprParser.ArithmeticContext):
+    # Visit a parse tree produced by ExprParser#arithmeticMulDiv.
+    def visitArithmeticMulDiv(self, ctx: ExprParser.ArithmeticMulDivContext):
         left = self.visit(ctx.expr(0))
         right = self.visit(ctx.expr(1))
 
@@ -32,6 +32,15 @@ class Visitor(ExprVisitor):
                 return left * right
             case ExprParser.DIV:
                 return left / right
+            case _:
+                assert_never(ctx.op.type)  # type: ignore
+
+    # Visit a parse tree produced by ExprParser#arithmeticAddSub.
+    def visitArithmeticAddSub(self, ctx: ExprParser.ArithmeticAddSubContext):
+        left = self.visit(ctx.expr(0))
+        right = self.visit(ctx.expr(1))
+
+        match ctx.op.type:  # type: ignore
             case ExprParser.ADD:
                 return left + right
             case ExprParser.SUB:

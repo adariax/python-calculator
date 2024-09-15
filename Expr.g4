@@ -1,13 +1,14 @@
 grammar Expr;
 
-start:  expr NEWLINE                # printExpr
+stat:   expr NEWLINE                # printExpr
     |   NEWLINE                     # blank
     ;
 
-expr:   expr op=('+'|'-'|'*'|'/') expr      # arithmetic
+expr:   '(' expr ')'                # parens
     |   '-' expr                    # negative
+    |   expr op=('*'|'/') expr      # arithmeticMulDiv
+    |   expr op=('+'|'-') expr      # arithmeticAddSub
     |   INT                         # int
-    |   '(' expr ')'                # parens
     ;
 
 ADD :   '+' ;
